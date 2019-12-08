@@ -1,0 +1,10 @@
+/.metadata/
+user-microservice/.mvn
+user-microservice/.settings
+user-microservice/.project
+user-microservice/.classpath
+user-microservice/HELP.md
+user-microservice/mvnw.cmd
+user-microservice/mvn.cmd
+user-microservice/mvnw
+user-microservice/target/**
