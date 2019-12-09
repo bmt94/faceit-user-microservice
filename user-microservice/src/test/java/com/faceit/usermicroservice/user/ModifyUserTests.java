@@ -28,9 +28,23 @@ public class ModifyUserTests
 		User userModified = ExpectedTestUsers.getUser2();
 		userModified.setCountry("United Kingdom");
 		userModified.setLastName("Karen");
+		
 		userRepo.save(userModified);
 		Optional<User> actualUser = userRepo.findById(userModified.getId());
 		assertEquals(userModified, actualUser.get());
+	}
+	
+	
+	@Transactional
+	@Test
+	public void testModifyNonExistantUser(){				
+		User userModified = new User();
+		userModified.setId(100);
+		userModified.setCountry("Germany");
+		if(userRepo.existsById(userModified.getId())) userRepo.save(userModified);
+		
+		Optional<User> actualUser = userRepo.findById(userModified.getId()); 
+		assertEquals(false, actualUser.isPresent());
 	}
 	
 
