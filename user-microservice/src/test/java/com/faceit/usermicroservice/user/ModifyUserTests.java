@@ -2,8 +2,6 @@ package com.faceit.usermicroservice.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -14,12 +12,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.faceit.usermicroservice.entities.User;
 import com.faceit.usermicroservice.repositories.UserRepository;
+import com.faceit.usermicroservice.services.UserUpdateService;
 
 @SpringBootTest
 public class ModifyUserTests 
 {
 	@Autowired
 	private UserRepository userRepo;
+	@Autowired
+	private UserUpdateService userUpdateter;
 	
 	
 	@Transactional
@@ -29,7 +30,7 @@ public class ModifyUserTests
 		userModified.setCountry("United Kingdom");
 		userModified.setLastName("Karen");
 		
-		userRepo.save(userModified);
+		userUpdateter.updateUser(userModified);	
 		Optional<User> actualUser = userRepo.findById(userModified.getId());
 		assertEquals(userModified, actualUser.get());
 	}
@@ -41,8 +42,8 @@ public class ModifyUserTests
 		User userModified = new User();
 		userModified.setId(100);
 		userModified.setCountry("Germany");
-		if(userRepo.existsById(userModified.getId())) userRepo.save(userModified);
 		
+		userUpdateter.updateUser(userModified);	
 		Optional<User> actualUser = userRepo.findById(userModified.getId()); 
 		assertEquals(false, actualUser.isPresent());
 	}
