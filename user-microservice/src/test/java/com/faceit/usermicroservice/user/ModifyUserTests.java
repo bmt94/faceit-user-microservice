@@ -11,16 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.faceit.usermicroservice.entities.User;
-import com.faceit.usermicroservice.repositories.UserRepository;
-import com.faceit.usermicroservice.services.UserUpdateService;
+import  com.faceit.usermicroservice.repositories.user_repository.UserRepository;
 
 @SpringBootTest
 public class ModifyUserTests 
 {
 	@Autowired
 	private UserRepository userRepo;
-	@Autowired
-	private UserUpdateService userUpdateter;
 	
 	
 	@Transactional
@@ -30,7 +27,7 @@ public class ModifyUserTests
 		userModified.setCountry("United Kingdom");
 		userModified.setLastName("Karen");
 		
-		userUpdateter.updateUser(userModified);	
+		userRepo.updateUser(userModified);	
 		Optional<User> actualUser = userRepo.findById(userModified.getId());
 		assertEquals(userModified, actualUser.get());
 	}
@@ -43,11 +40,12 @@ public class ModifyUserTests
 		userModified.setId(100);
 		userModified.setCountry("Germany");
 		
-		userUpdateter.updateUser(userModified);	
+		userRepo.updateUser(userModified);	
 		Optional<User> actualUser = userRepo.findById(userModified.getId()); 
 		assertEquals(false, actualUser.isPresent());
 	}
 	
+
 
 	
 }

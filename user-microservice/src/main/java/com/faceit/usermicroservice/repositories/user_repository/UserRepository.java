@@ -1,4 +1,4 @@
-package com.faceit.usermicroservice.repositories;
+package com.faceit.usermicroservice.repositories.user_repository;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.faceit.usermicroservice.entities.User;
 
-public interface UserRepository  extends CrudRepository<User, Integer> {
+public interface UserRepository  extends CrudRepository<User, Integer> , UserCustomRepository{
 	
 	
 	@Query("SELECT e FROM User e WHERE lower( e.firstName) = lower(:firstName) AND  lower( e.lastName) = lower(:lastName) ORDER BY lastName")
@@ -31,4 +31,6 @@ public interface UserRepository  extends CrudRepository<User, Integer> {
 
 	@Query("SELECT e FROM User e WHERE lower( e.country) = lower(:country) ORDER BY firstName")
 	List<User> findByCountry(String country);
+	
+	
 }

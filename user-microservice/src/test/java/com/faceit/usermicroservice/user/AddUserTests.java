@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.faceit.usermicroservice.entities.User;
-import com.faceit.usermicroservice.repositories.UserRepository;
+import  com.faceit.usermicroservice.repositories.user_repository.UserRepository;
 
 @SpringBootTest
 public class AddUserTests 

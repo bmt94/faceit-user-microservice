@@ -8,3 +8,4 @@ user-microservice/mvnw.cmd
 user-microservice/mvn.cmd
 user-microservice/mvnw
 user-microservice/target/**
+/.recommenders/
