@@ -1,4 +1,4 @@
-package com.faceit.usermicroservice.user;
+package com.faceit.usermicroservice;
 
 import com.faceit.usermicroservice.entities.User;
 

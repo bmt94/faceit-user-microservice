@@ -1,4 +1,4 @@
-package com.faceit.usermicroservice.user.get_user_tests;
+package com.faceit.usermicroservice.repositories.user.get_user_tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,14 +7,13 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.faceit.usermicroservice.entities.User;
 import  com.faceit.usermicroservice.repositories.user_repository.UserRepository;
-import com.faceit.usermicroservice.user.ExpectedTestUsers;
+import com.faceit.usermicroservice.ExpectedTestUsers;
 
 @SpringBootTest
 public class GetUserByNickNameTests 

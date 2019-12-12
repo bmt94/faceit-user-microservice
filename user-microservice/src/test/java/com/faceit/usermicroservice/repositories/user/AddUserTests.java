@@ -1,9 +1,7 @@
-package com.faceit.usermicroservice.user;
+package com.faceit.usermicroservice.repositories.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;

@@ -9,7 +9,7 @@ import com.faceit.usermicroservice.entities.User;
 public class UserCustomRepositoryImpl implements UserCustomRepository {
 	
 	@Autowired
-	EntityManager entityManager;
+	private EntityManager entityManager;
 
 	@Override
 	public void updateUser(User user) {

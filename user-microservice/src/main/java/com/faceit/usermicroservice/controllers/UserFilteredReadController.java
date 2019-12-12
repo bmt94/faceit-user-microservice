@@ -1,5 +1,7 @@
 package com.faceit.usermicroservice.controllers;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,20 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.faceit.usermicroservice.entities.User;
 import com.faceit.usermicroservice.repositories.user_repository.UserRepository;
+import com.faceit.usermicroservice.services.UserResponseService;
+import com.faceit.usermicroservice.web_entities.UserResponse;
 
 @RestController
 @RequestMapping("/users")
-public class UserFilteredController {
+public class UserFilteredReadController {
 	
 	@Autowired
-	UserRepository userRepo;
+	private UserRepository userRepo;
+	@Autowired
+	private UserResponseService userResponseService;
 
-	
-	@GetMapping(value = "/list")
-	public ResponseEntity<Iterable<User>> getAllUsers(HttpServletRequest request){
-		Iterable<User> users = userRepo.findAll();
-		return ResponseEntity.ok(users);
-	}
 
 	@GetMapping(value = "/list", params= {"firstName","lastName" } )
 	public  ResponseEntity<Iterable<User>> getUsersByName(@RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName, HttpServletRequest request){	
@@ -33,9 +33,9 @@ public class UserFilteredController {
 	}
 
 	@GetMapping(value = "/list", params="firstName" )
-	public  ResponseEntity<Iterable<User>> getUsersByFirstName(@RequestParam(value = "firstName") String firstName, HttpServletRequest request){	
-		Iterable<User> users = userRepo.findByFirstName(firstName);
-		return ResponseEntity.ok(users);
+	public  ResponseEntity<List<UserResponse>> getUsersByFirstName(@RequestParam(value = "firstName") String firstName, HttpServletRequest request){	
+		List<UserResponse> users = userResponseService.UserToResponse( userRepo.findByFirstName(firstName) );
+		return ResponseEntity.ok(users) ;
 	}
 
 	@GetMapping(value = "/list", params="lastName" )

@@ -1,4 +1,4 @@
-package com.faceit.usermicroservice.user;
+package com.faceit.usermicroservice.repositories.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.faceit.usermicroservice.entities.User;
+import com.faceit.usermicroservice.ExpectedTestUsers;
 import  com.faceit.usermicroservice.repositories.user_repository.UserRepository;
 
 @SpringBootTest

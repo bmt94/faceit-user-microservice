@@ -24,9 +24,15 @@ import com.faceit.usermicroservice.repositories.user_repository.UserRepository;
 public class UserCRUDController {
 	
 	@Autowired
-	UserRepository userRepo;
+	private UserRepository userRepo;
 	
 
+	
+	@GetMapping(value = "/list")
+	public ResponseEntity<Iterable<User>> getAllUsers(HttpServletRequest request){
+		Iterable<User> users = userRepo.findAll();
+		return ResponseEntity.ok(users);
+	}
 	
 	@GetMapping(value = "/view/{userID}")
 	public ResponseEntity<User> getUserByID(@PathVariable(value = "userID") int userID, HttpServletRequest request){	
