@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.faceit.usermicroservice.ExpectedTestUsers;
 import com.faceit.usermicroservice.entities.User;
 import com.faceit.usermicroservice.repositories.user_repository.UserRepository;
+import com.faceit.usermicroservice.services.UserResponseService;
+import com.faceit.usermicroservice.web_entities.UserResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
@@ -33,33 +36,72 @@ public class UserFilteredReadControllerTests {
   @Autowired
   private ObjectMapper objectMapper;
   @MockBean
-  private UserRepository userRepo;
+  private UserRepository userRepo;	
+  @MockBean
+  UserResponseService userResponseService;
+  
+  List<User> expectedUsers = new ArrayList<>(Arrays.asList(ExpectedTestUsers .getUser1()));
+  List<UserResponse> expectedUsersResponses = new ArrayList<>(Arrays.asList(new UserResponse(1, "Ross", "Geller", "the_geller", "ross@live.com", "USA")));
 
-  @Test
-  public void testGetUserByNameEndPoint() throws Exception {
-	List<User> expectedUsers = new ArrayList<>();
-	expectedUsers.add(ExpectedTestUsers .getUser3());
-    when(userRepo.findByName("joey", "tribiani")).thenReturn(expectedUsers);
-    ResultActions resultActions = this.mockMvc.perform(get("/users/list?firstName=joey&lastName=tribiani")).andDo(print()).andExpect(status().isOk());
-    
-    MvcResult result = resultActions.andReturn();
-    String contentAsString = result.getResponse().getContentAsString();
-    List<User> actualUsers = objectMapper.readValue(contentAsString, objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
-    assertEquals(expectedUsers, actualUsers);
+  
+  private List<UserResponse> deserialiseResponse( ResultActions resultActions) throws Exception {
+	  MvcResult result = resultActions.andReturn();
+	  String contentAsString = result.getResponse().getContentAsString();
+	  return objectMapper.readValue(contentAsString, objectMapper.getTypeFactory().constructCollectionType(List.class, UserResponse.class));
   }
   
+  @Test
+  public void testGetUserByNameEndPoint() throws Exception {	
+    when(userRepo.findByName("Ross", "Geller")).thenReturn(expectedUsers);        
+    when(userResponseService.UserToResponse(expectedUsers)).thenReturn(expectedUsersResponses);    
+    ResultActions resultActions = this.mockMvc.perform(get("/users/list").param("firstName", "Ross").param("lastName", "Geller"))
+    		.andDo(print()).andExpect(status().isOk());    
+    assertEquals(expectedUsersResponses, deserialiseResponse(resultActions));
+  }  
   
   @Test
   public void testGetUserByFirstNameEndPoint() throws Exception {
-	List<User> expectedUsers = new ArrayList<>();
-	expectedUsers.add(ExpectedTestUsers .getUser3());
-    when(userRepo.findByFirstName("joey")).thenReturn(expectedUsers);
-    ResultActions resultActions = this.mockMvc.perform(get("/users/list?firstName=joey")).andDo(print()).andExpect(status().isOk());
-    
-    MvcResult result = resultActions.andReturn();
-    String contentAsString = result.getResponse().getContentAsString();
-    List<User> actualUsers = objectMapper.readValue(contentAsString, objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
-    assertEquals(expectedUsers, actualUsers);
+    when(userRepo.findByFirstName("Ross")).thenReturn(expectedUsers);    
+    when(userResponseService.UserToResponse(expectedUsers)).thenReturn(expectedUsersResponses);    
+    ResultActions resultActions = this.mockMvc.perform(get("/users/list").param("firstName", "Ross"))
+    		.andDo(print()).andExpect(status().isOk());    
+    assertEquals(expectedUsersResponses, deserialiseResponse(resultActions));
+  }  
+  
+  @Test
+  public void testGetUserByLastNameEndPoint() throws Exception {
+    when(userRepo.findByLastName("Geller")).thenReturn(expectedUsers);    
+    when(userResponseService.UserToResponse(expectedUsers)).thenReturn(expectedUsersResponses);    
+    ResultActions resultActions = this.mockMvc.perform(get("/users/list").param("lastName", "Geller"))
+    		.andDo(print()).andExpect(status().isOk());    
+    assertEquals(expectedUsersResponses, deserialiseResponse(resultActions));
+  }
+  
+  @Test
+  public void testGetUserByNickNameEndPoint() throws Exception {
+    when(userRepo.findByNickName("the_geller")).thenReturn(expectedUsers);    
+    when(userResponseService.UserToResponse(expectedUsers)).thenReturn(expectedUsersResponses);    
+    ResultActions resultActions = this.mockMvc.perform(get("/users/list").param("nickName", "the_geller"))
+    		.andDo(print()).andExpect(status().isOk());    
+    assertEquals(expectedUsersResponses, deserialiseResponse(resultActions));
+  }
+  
+  @Test
+  public void testGetUserByCountryEndPoint() throws Exception {
+    when(userRepo.findByCountry("USA")).thenReturn(expectedUsers);    
+    when(userResponseService.UserToResponse(expectedUsers)).thenReturn(expectedUsersResponses);    
+    ResultActions resultActions = this.mockMvc.perform(get("/users/list").param("country", "USA"))
+    		.andDo(print()).andExpect(status().isOk());    
+    assertEquals(expectedUsersResponses, deserialiseResponse(resultActions));
+  }
+  
+  @Test
+  public void testGetUserByEmailEndPoint() throws Exception {
+    when(userRepo.findByEmail("ross@live.com")).thenReturn(expectedUsers);    
+    when(userResponseService.UserToResponse(expectedUsers)).thenReturn(expectedUsersResponses);    
+    ResultActions resultActions = this.mockMvc.perform(get("/users/list").param("email", "ross@live.com"))
+    		.andDo(print()).andExpect(status().isOk());    
+    assertEquals(expectedUsersResponses, deserialiseResponse(resultActions));
   }
   
   

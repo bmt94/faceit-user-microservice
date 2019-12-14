@@ -8,7 +8,6 @@ import com.faceit.usermicroservice.web_entities.UserResponse;
 public interface UserResponseService {
 	
 	UserResponse UserToResponse(User user);
-	List<UserResponse> UserToResponse(List<User> users);
 	List<UserResponse> UserToResponse(Iterable<User> users);
 	
 }

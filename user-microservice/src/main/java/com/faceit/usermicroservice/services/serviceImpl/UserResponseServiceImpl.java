@@ -24,14 +24,6 @@ public class UserResponseServiceImpl implements UserResponseService {
 		return userResponse;
 	}
 
-	@Override
-	public List<UserResponse> UserToResponse(List<User> users) {
-		List<UserResponse> userResponses = new ArrayList<>();
-		for(User user: users) {
-			userResponses.add(UserToResponse(user));
-		}
-		return userResponses;
-	}
 
 	@Override
 	public List<UserResponse> UserToResponse(Iterable<User> users) {

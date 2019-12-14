@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,39 +27,39 @@ public class UserFilteredReadController {
 	private UserResponseService userResponseService;
 
 
-	@GetMapping(value = "/list", params= {"firstName","lastName" } )
-	public  ResponseEntity<Iterable<User>> getUsersByName(@RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName, HttpServletRequest request){	
-		Iterable<User> users = userRepo.findByName(firstName, lastName);
+	@GetMapping(value = "/list", params= {"firstName","lastName" }, produces = MediaType.APPLICATION_JSON_VALUE )
+	public  ResponseEntity<List<UserResponse>> getUsersByName(@RequestParam(value = "firstName") String firstName, @RequestParam(value = "lastName") String lastName, HttpServletRequest request){	
+		List<UserResponse> users = userResponseService.UserToResponse(userRepo.findByName(firstName, lastName));
 		return ResponseEntity.ok(users);
 	}
 
-	@GetMapping(value = "/list", params="firstName" )
+	@GetMapping(value = "/list", params="firstName", produces = MediaType.APPLICATION_JSON_VALUE )
 	public  ResponseEntity<List<UserResponse>> getUsersByFirstName(@RequestParam(value = "firstName") String firstName, HttpServletRequest request){	
 		List<UserResponse> users = userResponseService.UserToResponse( userRepo.findByFirstName(firstName) );
 		return ResponseEntity.ok(users) ;
 	}
 
-	@GetMapping(value = "/list", params="lastName" )
-	public  ResponseEntity<Iterable<User>> getUsersByLastName(@RequestParam(value = "lastName") String lastName, HttpServletRequest request){	
-		Iterable<User> users = userRepo.findByLastName(lastName);
+	@GetMapping(value = "/list", params="lastName", produces = MediaType.APPLICATION_JSON_VALUE )
+	public  ResponseEntity<List<UserResponse>> getUsersByLastName(@RequestParam(value = "lastName") String lastName, HttpServletRequest request){	
+		List<UserResponse> users = userResponseService.UserToResponse( userRepo.findByLastName(lastName) );
 		return ResponseEntity.ok(users);
 	}
 
-	@GetMapping(value = "/list", params="nickName" )
-	public  ResponseEntity<Iterable<User>> getUsersByNickName(@RequestParam(value = "nickName") String nickName, HttpServletRequest request){	
-		Iterable<User> users = userRepo.findByNickName(nickName);
+	@GetMapping(value = "/list", params="nickName", produces = MediaType.APPLICATION_JSON_VALUE )
+	public  ResponseEntity<List<UserResponse>> getUsersByNickName(@RequestParam(value = "nickName") String nickName, HttpServletRequest request){	
+		List<UserResponse> users = userResponseService.UserToResponse( userRepo.findByNickName(nickName) );
 		return ResponseEntity.ok(users);
 	}
 
-	@GetMapping(value = "/list", params="country" )
-	public  ResponseEntity<Iterable<User>> getUsersByCountry(@RequestParam(value = "country") String country, HttpServletRequest request){	
-		Iterable<User> users = userRepo.findByCountry(country);
+	@GetMapping(value = "/list", params="country", produces = MediaType.APPLICATION_JSON_VALUE )
+	public  ResponseEntity<List<UserResponse>> getUsersByCountry(@RequestParam(value = "country") String country, HttpServletRequest request){	
+		List<UserResponse> users = userResponseService.UserToResponse( userRepo.findByCountry(country) );
 		return ResponseEntity.ok(users);
 	}
 
-	@GetMapping(value = "/list", params="email" )
-	public  ResponseEntity<Iterable<User>> getUsersByEmail(@RequestParam(value = "email") String email, HttpServletRequest request){	
-		Iterable<User> users = userRepo.findByEmail(email);
+	@GetMapping(value = "/list", params="email", produces = MediaType.APPLICATION_JSON_VALUE )
+	public  ResponseEntity<List<UserResponse>> getUsersByEmail(@RequestParam(value = "email") String email, HttpServletRequest request){	
+		List<UserResponse> users = userResponseService.UserToResponse( userRepo.findByEmail(email) );
 		return ResponseEntity.ok(users);
 	}
 	

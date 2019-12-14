@@ -29,7 +29,14 @@ public class DeleteUserTests
 		Optional<User> actualUser = userRepo.findById(userToDelete.getId());
 		assertEquals(false, actualUser.isPresent());
 	}
-	
+
+	@Transactional
+	@Test
+	public void testDeleteUserByID(){				
+		userRepo.deleteById(1);
+		Optional<User> actualUser = userRepo.findById(1);
+		assertEquals(false, actualUser.isPresent());
+	}
 
 	
 }
