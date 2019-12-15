@@ -2,10 +2,11 @@ package com.faceit.usermicroservice.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -24,6 +26,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+
 import com.faceit.usermicroservice.ExpectedTestUsers;
 import com.faceit.usermicroservice.entities.User;
 import com.faceit.usermicroservice.repositories.user_repository.UserRepository;
@@ -34,6 +37,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserCRUDController.class)
+@AutoConfigureRestDocs(outputDir = "target/snippets")
 public class UserCRUDControllerTests {
 
 	  @Autowired
@@ -45,7 +49,7 @@ public class UserCRUDControllerTests {
 	  @MockBean
 	  UserResponseService userResponseService;
 
-		  
+
 	  @Test
 	  public void testGetAllUsersEndPoint() throws Exception {	
 		 List<User> expectedUsers = new ArrayList<>(Arrays.asList(
@@ -58,7 +62,9 @@ public class UserCRUDControllerTests {
 	    when(userResponseService.UserToResponse(expectedUsers)).thenReturn(expectedUsersResponses);    
 	    
 	    ResultActions resultActions = this.mockMvc.perform(get("/users/list"))
-	    		.andDo(print()).andExpect(status().isOk());    
+	    		.andDo(print())
+	    		.andDo(document("get-all-users"))
+				.andExpect(status().isOk());
 		MvcResult result = resultActions.andReturn();
 		String contentAsString = result.getResponse().getContentAsString();
 		List<UserResponse> actualUserResponses = objectMapper.readValue(contentAsString, objectMapper.getTypeFactory().constructCollectionType(List.class, UserResponse.class));
@@ -73,7 +79,9 @@ public class UserCRUDControllerTests {
 	    when(userRepo.findById(1)).thenReturn(expectedUser);        
 	    when(userResponseService.UserToResponse(expectedUser.get())).thenReturn(expectedUsersResponse);    
 	    ResultActions resultActions = this.mockMvc.perform(get("/users/view/1"))
-	    		.andDo(print()).andExpect(status().isOk());    
+	    		.andDo(print())
+	            .andDo(document("get-user-by-id"))
+	            .andExpect(status().isOk());    
 	    MvcResult result = resultActions.andReturn();
 	    String contentAsString = result.getResponse().getContentAsString();
 	    UserResponse actualUserResponse = objectMapper.readValue(contentAsString, UserResponse.class);
@@ -91,20 +99,22 @@ public class UserCRUDControllerTests {
 	  	requestUser.setPassword("$2y$10$HvhIUiCXMJyITv1E5GtMNuUGeTE0xfcDTNGCXfqaJjo7kHBlhxZM2");
 
 	  	ObjectMapper objectMapper = new ObjectMapper();
-        String requestBodyJson = objectMapper.writeValueAsString(requestUser);
+        String requestBodyJson = objectMapper.writeValueAsString(ExpectedTestUsers.getUser1());
 	    this.mockMvc.perform(
 	            post("/users/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
                 .content(requestBodyJson))
     		.andDo(print())
-    		.andExpect(status().isOk());
+    		.andExpect(status().isOk())
+            .andDo(document("add-user"));   
 	  }  	  
 	  
 	  @Test
 	  public void testModifyUserEndPoint() throws Exception {	
 	  	User requestUser = ExpectedTestUsers.getUser3();
 	  	requestUser.setNickname("Ken_Adams");
+	    when(userRepo.updateUser(requestUser)).thenReturn(true);        
 
 	  	ObjectMapper objectMapper = new ObjectMapper();
         String requestBodyJson = objectMapper.writeValueAsString(requestUser);
@@ -114,6 +124,7 @@ public class UserCRUDControllerTests {
                 .characterEncoding("utf-8")
                 .content(requestBodyJson))
     		.andDo(print())
+    		.andDo(document("modify-user"))
     		.andExpect(status().isOk());
 	  }  	  
 	  
@@ -123,6 +134,7 @@ public class UserCRUDControllerTests {
 	            delete("/users/remove/1")
                 .contentType(MediaType.TEXT_PLAIN_VALUE))
     		.andDo(print())
+    		.andDo(document("delete-user"))
     		.andExpect(status().isOk());
 	  }  
 	  

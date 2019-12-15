@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.faceit.usermicroservice.entities.User;
 import com.faceit.usermicroservice.repositories.user_repository.UserRepository;
@@ -53,9 +55,10 @@ public class UserCRUDController {
 		userRepo.save(user);
 	}
 	
+	@Transactional
 	@PutMapping(value = "/modify", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void modifyUser(@RequestBody User user, HttpServletRequest request){	
-		userRepo.updateUser(user);
+		if(!userRepo.updateUser(user)) throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User does not exist");
 	}
 	
 	@DeleteMapping(value = "/remove/{userID}")

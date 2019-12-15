@@ -5,6 +5,6 @@ import com.faceit.usermicroservice.entities.User;
 public interface UserCustomRepository {
 	
 	
-	void updateUser(User user);
+	boolean updateUser(User user);
 
 }

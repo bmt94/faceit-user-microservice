@@ -12,9 +12,12 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 	private EntityManager entityManager;
 
 	@Override
-	public void updateUser(User user) {
-		if(entityManager.find(User.class, user.getId()) != null) 
+	public boolean updateUser(User user) {
+		if(entityManager.find(User.class, user.getId()) != null){
 			entityManager.merge(user);
+			return true;
+		}
+		return false;
 	}
 
 }

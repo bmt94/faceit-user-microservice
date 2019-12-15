@@ -1,0 +1,32 @@
+= FACEIT User API Documentation
+
+
+==Get All Users
+.request
+include::{snippets}/get-all-users/http-request.adoc[]
+.response
+include::{snippets}/get-all-users/http-response.adoc[]
+
+==Get User by ID
+.request
+include::{snippets}/get-user-by-id/http-request.adoc[]
+.response
+include::{snippets}/get-user-by-id/http-response.adoc[]
+
+==Add User
+.request
+include::{snippets}/add-user/http-request.adoc[]
+.response
+include::{snippets}/add-user/http-response.adoc[]
+
+==Modify User
+.request
+include::{snippets}/modify-user/http-request.adoc[]
+.response
+include::{snippets}/modify-user/http-response.adoc[]
+
+==Delete User
+.request
+include::{snippets}/delete-user/http-request.adoc[]
+.response
+include::{snippets}/delete-user/http-response.adoc[]
