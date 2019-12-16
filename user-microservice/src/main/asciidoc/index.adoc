@@ -1,32 +1,76 @@
 = FACEIT User API Documentation
 
 
-==Get All Users
+== Get All Users
 .request
 include::{snippets}/get-all-users/http-request.adoc[]
 .response
 include::{snippets}/get-all-users/http-response.adoc[]
 
-==Get User by ID
+== Get User by ID
 .request
 include::{snippets}/get-user-by-id/http-request.adoc[]
+.fields
+include::{snippets}/get-user-by-id/path-parameters.adoc[]
 .response
 include::{snippets}/get-user-by-id/http-response.adoc[]
 
-==Add User
+== Add User
 .request
 include::{snippets}/add-user/http-request.adoc[]
 .response
 include::{snippets}/add-user/http-response.adoc[]
 
-==Modify User
+== Modify User
 .request
 include::{snippets}/modify-user/http-request.adoc[]
 .response
 include::{snippets}/modify-user/http-response.adoc[]
 
-==Delete User
+== Get User by Name
 .request
-include::{snippets}/delete-user/http-request.adoc[]
+include::{snippets}/get-users-by-name/http-request.adoc[]
+.fields
+include::{snippets}/get-users-by-name/request-parameters.adoc[]
 .response
-include::{snippets}/delete-user/http-response.adoc[]
+include::{snippets}/get-users-by-name/http-response.adoc[]
+
+== Get User by First Name
+.request
+include::{snippets}/get-users-by-first-name/http-request.adoc[]
+.fields
+include::{snippets}/get-users-by-first-name/request-parameters.adoc[]
+.response
+include::{snippets}/get-users-by-first-name/http-response.adoc[]
+
+== Get User by Last Name
+.request
+include::{snippets}/get-users-by-last-name/http-request.adoc[]
+.fields
+include::{snippets}/get-users-by-last-name/request-parameters.adoc[]
+.response
+include::{snippets}/get-users-by-last-name/http-response.adoc[]
+
+== Get User by Nickname
+.request
+include::{snippets}/get-users-by-nickname/http-request.adoc[]
+.fields
+include::{snippets}/get-users-by-nickname/request-parameters.adoc[]
+.response
+include::{snippets}/get-users-by-nickname/http-response.adoc[]
+
+== Get User by Country
+.request
+include::{snippets}/get-users-by-country/http-request.adoc[]
+.fields
+include::{snippets}/get-users-by-country/request-parameters.adoc[]
+.response
+include::{snippets}/get-users-by-country/http-response.adoc[]
+
+== Get User by Email
+.request
+include::{snippets}/get-users-by-email/http-request.adoc[]
+.fields
+include::{snippets}/get-users-by-email/request-parameters.adoc[]
+.response
+include::{snippets}/get-users-by-email/http-response.adoc[]

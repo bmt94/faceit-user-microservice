@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,11 +18,18 @@ import org.hibernate.annotations.GenericGenerator;
 public class User {
 	
     private Integer id;
+    @NotNull
+	@Size(min = 3, max = 30)
     private String firstName;
+    @NotNull
+	@Size(min = 3, max = 30)
     private String lastName;
+	@Size(min = 3, max = 10)
     private String nickname;
     private String password;
+	@Size(min = 5, max = 50)
     private String email;
+	@Size(min = 3, max = 20)
     private String country;
     
     @Id

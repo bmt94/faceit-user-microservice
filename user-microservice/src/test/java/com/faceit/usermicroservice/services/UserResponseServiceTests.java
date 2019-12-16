@@ -37,6 +37,7 @@ public class UserResponseServiceTests {
 		assertEquals(usersResponseExpected, usersResponseActual);
 	}
 	
+		
 	@Transactional
 	@Test
 	public void testUserToResponse() {

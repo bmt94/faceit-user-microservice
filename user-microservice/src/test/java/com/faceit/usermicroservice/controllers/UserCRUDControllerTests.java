@@ -3,6 +3,9 @@ package com.faceit.usermicroservice.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -78,14 +81,24 @@ public class UserCRUDControllerTests {
 		  
 	    when(userRepo.findById(1)).thenReturn(expectedUser);        
 	    when(userResponseService.UserToResponse(expectedUser.get())).thenReturn(expectedUsersResponse);    
-	    ResultActions resultActions = this.mockMvc.perform(get("/users/view/1"))
+	    ResultActions resultActions = this.mockMvc.perform(org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get("/users/view/{userID}", "1"))
 	    		.andDo(print())
-	            .andDo(document("get-user-by-id"))
+	            .andDo(document("get-user-by-id", pathParameters( 
+	        			parameterWithName("userID").description("The user's ID") )))
 	            .andExpect(status().isOk());    
 	    MvcResult result = resultActions.andReturn();
 	    String contentAsString = result.getResponse().getContentAsString();
 	    UserResponse actualUserResponse = objectMapper.readValue(contentAsString, UserResponse.class);
 	    assertEquals(expectedUsersResponse, actualUserResponse);
+	  }  
+	  
+	  @Test
+	  public void testGetUserByIDEndPointWrongID() throws Exception {
+		Optional<User> expectedUser = Optional.empty();
+	    when(userRepo.findById(1)).thenReturn(expectedUser);         
+	    this.mockMvc.perform(org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get("/users/view/{userID}", "1"))
+	    		.andDo(print())
+	            .andExpect(status().isNotFound());    
 	  }  
 	  
 	  @Test
@@ -99,15 +112,27 @@ public class UserCRUDControllerTests {
 	  	requestUser.setPassword("$2y$10$HvhIUiCXMJyITv1E5GtMNuUGeTE0xfcDTNGCXfqaJjo7kHBlhxZM2");
 
 	  	ObjectMapper objectMapper = new ObjectMapper();
-        String requestBodyJson = objectMapper.writeValueAsString(ExpectedTestUsers.getUser1());
+        String requestBodyJson = objectMapper.writeValueAsString(requestUser);
 	    this.mockMvc.perform(
 	            post("/users/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("utf-8")
                 .content(requestBodyJson))
     		.andDo(print())
-    		.andExpect(status().isOk())
-            .andDo(document("add-user"));   
+    		.andDo(document("add-user"))
+    		.andExpect(status().isOk());  
+	  }  	  
+	  
+	  @Test
+	  public void testAddUserEndPointNoData() throws Exception {	
+        String requestBodyJson = objectMapper.writeValueAsString(null);
+	    this.mockMvc.perform(
+	            post("/users/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(requestBodyJson))
+    		.andDo(print())
+    		.andExpect(status().isBadRequest());  
 	  }  	  
 	  
 	  @Test
@@ -129,15 +154,28 @@ public class UserCRUDControllerTests {
 	  }  	  
 	  
 	  @Test
+	  public void testModifyUserEndPointNoData() throws Exception {	
+        String requestBodyJson = objectMapper.writeValueAsString(null);
+	    this.mockMvc.perform(
+	            put("/users/modify")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("utf-8")
+                .content(requestBodyJson))
+    		.andDo(print())
+    		.andExpect(status().isBadRequest());
+	  }  	 
+	  
+	  @Test
 	  public void testDeleteUserEndPoint() throws Exception {	
 	    this.mockMvc.perform(
-	            delete("/users/remove/1")
+	    		org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete("/users/remove/{userID}", "1")
                 .contentType(MediaType.TEXT_PLAIN_VALUE))
     		.andDo(print())
-    		.andDo(document("delete-user"))
+            .andDo(document("delete-user", pathParameters( 
+        			parameterWithName("userID").description("The user's ID") )))
     		.andExpect(status().isOk());
 	  }  
-	  
+	
 	  
 	  
 	  

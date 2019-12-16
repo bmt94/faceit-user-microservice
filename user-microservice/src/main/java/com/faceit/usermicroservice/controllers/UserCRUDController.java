@@ -52,18 +52,35 @@ public class UserCRUDController {
 	
 	@PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void addUser(@RequestBody User user, HttpServletRequest request){	
-		userRepo.save(user);
+		try{
+			userRepo.save(user);
+		}
+		catch(javax.validation.ConstraintViolationException e) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "User properties does not meet required specifications");
+		}
 	}
 	
 	@Transactional
 	@PutMapping(value = "/modify", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void modifyUser(@RequestBody User user, HttpServletRequest request){	
-		if(!userRepo.updateUser(user)) throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User does not exist");
+		try{
+			if(!userRepo.updateUser(user)) throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User does not exist");
+		}
+		catch(javax.validation.ConstraintViolationException e) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "User properties does not meet required specifications");
+		}
+		
 	}
 	
 	@DeleteMapping(value = "/remove/{userID}")
 	public void deleteUser(@PathVariable(value="userID") int userID, HttpServletRequest request){	
-		userRepo.deleteById(userID);
+		try {
+			userRepo.deleteById(userID);
+		}
+		catch(org.springframework.dao.EmptyResultDataAccessException e) {
+			throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Cannot delete user as the user id does not exist");
+		}
+		
 	}	
 	
 	
