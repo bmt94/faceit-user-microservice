@@ -1,5 +1,5 @@
 /.metadata/
-/RemoteSystemsTempFiles
+RemoteSystemsTempFiles
 user-microservice/.mvn
 user-microservice/.settings
 user-microservice/.project

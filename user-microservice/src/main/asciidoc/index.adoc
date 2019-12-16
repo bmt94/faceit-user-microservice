@@ -18,12 +18,16 @@ include::{snippets}/get-user-by-id/http-response.adoc[]
 == Add User
 .request
 include::{snippets}/add-user/http-request.adoc[]
+.fields
+include::{snippets}/add-user/request-fields.adoc[]
 .response
 include::{snippets}/add-user/http-response.adoc[]
 
 == Modify User
 .request
 include::{snippets}/modify-user/http-request.adoc[]
+.fields
+include::{snippets}/add-user/request-fields.adoc[]
 .response
 include::{snippets}/modify-user/http-response.adoc[]
 

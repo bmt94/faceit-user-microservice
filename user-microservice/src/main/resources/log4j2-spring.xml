@@ -30,6 +30,9 @@
         </Root>
  
         <Logger name="com.faceit.usermicroservice" level="trace"></Logger>
+        <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
+		    <level value="DEBUG" />
+		</logger>
     </Loggers>
  
 </Configuration>

@@ -3,10 +3,10 @@ package com.faceit.usermicroservice.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -119,7 +119,15 @@ public class UserCRUDControllerTests {
                 .characterEncoding("utf-8")
                 .content(requestBodyJson))
     		.andDo(print())
-    		.andDo(document("add-user"))
+    		.andDo(document("add-user",  
+                    requestFields(
+                    		fieldWithPath("id").ignored(),
+                            fieldWithPath("firstName").description("First name of user"),
+                            fieldWithPath("lastName").description("Last name of user"),
+                            fieldWithPath("nickname").description("User's nickname"),
+                            fieldWithPath("password").description("Password for user"),
+                            fieldWithPath("email").description("User's email address"),
+                            fieldWithPath("country").description("User's country of origin") )))
     		.andExpect(status().isOk());  
 	  }  	  
 	  
@@ -149,7 +157,15 @@ public class UserCRUDControllerTests {
                 .characterEncoding("utf-8")
                 .content(requestBodyJson))
     		.andDo(print())
-    		.andDo(document("modify-user"))
+    		.andDo(document("modify-user",  
+                    requestFields(
+                    		fieldWithPath("id").ignored(),
+                            fieldWithPath("firstName").description("First name of user"),
+                            fieldWithPath("lastName").description("Last name of user"),
+                            fieldWithPath("nickname").description("User's nickname"),
+                            fieldWithPath("password").description("Password for user"),
+                            fieldWithPath("email").description("User's email address"),
+                            fieldWithPath("country").description("User's country of origin") )))
     		.andExpect(status().isOk());
 	  }  	  
 	  

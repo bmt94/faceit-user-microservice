@@ -1,10 +1,10 @@
 package com.faceit.usermicroservice.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when; 
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,8 +30,6 @@ import com.faceit.usermicroservice.repositories.user_repository.UserRepository;
 import com.faceit.usermicroservice.services.UserResponseService;
 import com.faceit.usermicroservice.web_entities.UserResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import io.micrometer.shaded.org.pcollections.Empty;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserFilteredReadController.class)
