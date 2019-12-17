@@ -3,11 +3,11 @@ package com.faceit.usermicroservice.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import javax.websocket.server.PathParam;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,46 +38,46 @@ public class UserCRUDController {
 
 	
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<UserResponse>> getAllUsers(HttpServletRequest request){
+	public ResponseEntity<List<UserResponse>> getAllUsers(){
 		List<UserResponse> users = userResponseService.UserToResponse(userRepo.findAll() );
 		return ResponseEntity.ok(users);
 	}
 	
 	@GetMapping(value = "/view/{userID}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserResponse> getUserByID(@PathVariable(value = "userID") int userID, HttpServletRequest request){	
+	public ResponseEntity<UserResponse> getUserByID(@PathVariable(value = "userID") int userID){	
 		Optional<User> user = userRepo.findById(userID); 
 		if(user.isPresent()) return ResponseEntity.ok( userResponseService.UserToResponse(user.get()) );
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	}
 	
 	@PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void addUser(@RequestBody User user, HttpServletRequest request){	
+	public void addUser(@RequestBody User user){	
 		try{
 			userRepo.save(user);
 		}
-		catch(javax.validation.ConstraintViolationException e) {
+		catch(ConstraintViolationException e) {
 			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "User properties does not meet required specifications");
 		}
 	}
 	
 	@Transactional
 	@PutMapping(value = "/modify", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void modifyUser(@RequestBody User user, HttpServletRequest request){	
+	public void modifyUser(@RequestBody User user){	
 		try{
 			if(!userRepo.updateUser(user)) throw new ResponseStatusException( HttpStatus.NOT_FOUND, "User does not exist");
 		}
-		catch(javax.validation.ConstraintViolationException e) {
+		catch(ConstraintViolationException e) {
 			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "User properties does not meet required specifications");
 		}
 		
 	}
 	
 	@DeleteMapping(value = "/remove/{userID}")
-	public void deleteUser(@PathVariable(value="userID") int userID, HttpServletRequest request){	
+	public void deleteUser(@PathVariable(value="userID") int userID){	
 		try {
 			userRepo.deleteById(userID);
 		}
-		catch(org.springframework.dao.EmptyResultDataAccessException e) {
+		catch(EmptyResultDataAccessException e) {
 			throw new ResponseStatusException( HttpStatus.NOT_FOUND, "Cannot delete user as the user id does not exist");
 		}
 		

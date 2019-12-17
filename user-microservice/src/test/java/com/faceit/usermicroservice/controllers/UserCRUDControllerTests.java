@@ -50,7 +50,7 @@ public class UserCRUDControllerTests {
 	  @MockBean
 	  private UserRepository userRepo;	
 	  @MockBean
-	  UserResponseService userResponseService;
+	  private UserResponseService userResponseService;
 
 
 	  @Test
@@ -81,6 +81,7 @@ public class UserCRUDControllerTests {
 		  
 	    when(userRepo.findById(1)).thenReturn(expectedUser);        
 	    when(userResponseService.UserToResponse(expectedUser.get())).thenReturn(expectedUsersResponse);    
+	    
 	    ResultActions resultActions = this.mockMvc.perform(org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get("/users/view/{userID}", "1"))
 	    		.andDo(print())
 	            .andDo(document("get-user-by-id", pathParameters( 
@@ -112,7 +113,7 @@ public class UserCRUDControllerTests {
 	  	requestUser.setPassword("$2y$10$HvhIUiCXMJyITv1E5GtMNuUGeTE0xfcDTNGCXfqaJjo7kHBlhxZM2");
 
 	  	ObjectMapper objectMapper = new ObjectMapper();
-        String requestBodyJson = objectMapper.writeValueAsString(requestUser);
+        String requestBodyJson = objectMapper.writeValueAsString(requestUser);        
 	    this.mockMvc.perform(
 	            post("/users/add")
                 .contentType(MediaType.APPLICATION_JSON)

@@ -20,7 +20,7 @@ import com.faceit.usermicroservice.web_entities.UserResponse;
 public class UserResponseServiceTests {
 	
 	@Autowired
-	UserResponseService userResponseService;
+	private UserResponseService userResponseService;
 
 	
 	@Transactional

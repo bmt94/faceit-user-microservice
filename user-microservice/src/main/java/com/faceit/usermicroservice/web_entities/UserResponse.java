@@ -2,8 +2,6 @@ package com.faceit.usermicroservice.web_entities;
 
 import java.util.Objects;
 
-import com.faceit.usermicroservice.entities.User;
-
 public class UserResponse {
 
     private Integer id;

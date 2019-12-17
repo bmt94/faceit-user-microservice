@@ -24,7 +24,7 @@ public class User {
     @NotNull
 	@Size(min = 3, max = 30)
     private String lastName;
-	@Size(min = 3, max = 10)
+	@Size(min = 2, max = 10)
     private String nickname;
     private String password;
 	@Size(min = 5, max = 50)
@@ -34,10 +34,7 @@ public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GenericGenerator(
-    	    name = "native",
-    	    strategy = "native"
-    	)
+    @GenericGenerator(name = "native", strategy = "native")
     @Column(name = "ID", updatable = false, nullable=false)
 	public Integer getId() {
 		return id;
@@ -93,7 +90,6 @@ public class User {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	
 	
 	
 	

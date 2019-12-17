@@ -43,10 +43,10 @@ public class UserFilteredReadControllerTests {
   @MockBean
   private UserRepository userRepo;	
   @MockBean
-  UserResponseService userResponseService;
+  private UserResponseService userResponseService;
   
-  List<User> expectedUsers = new ArrayList<>(Arrays.asList(ExpectedTestUsers .getUser1()));
-  List<UserResponse> expectedUsersResponses = new ArrayList<>(Arrays.asList(new UserResponse(1, "Ross", "Geller", "the_geller", "ross@live.com", "USA")));
+  private  List<User> expectedUsers = new ArrayList<>(Arrays.asList(ExpectedTestUsers .getUser1()));
+  private List<UserResponse> expectedUsersResponses = new ArrayList<>(Arrays.asList(new UserResponse(1, "Ross", "Geller", "the_geller", "ross@live.com", "USA")));
 
   
   private List<UserResponse> deserialiseResponse( ResultActions resultActions) throws Exception {

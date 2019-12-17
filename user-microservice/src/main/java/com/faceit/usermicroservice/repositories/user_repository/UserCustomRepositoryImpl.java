@@ -1,9 +1,7 @@
 package com.faceit.usermicroservice.repositories.user_repository;
 
 import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.faceit.usermicroservice.entities.User;
 
 public class UserCustomRepositoryImpl implements UserCustomRepository {

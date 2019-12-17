@@ -8,8 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.faceit.usermicroservice.entities.User;
 
-public interface UserRepository  extends CrudRepository<User, Integer> , UserCustomRepository{
-	
+public interface UserRepository  extends CrudRepository<User, Integer>, UserCustomRepository{	
 	
 	@Query("SELECT e FROM User e WHERE lower( e.firstName) = lower(:firstName) AND  lower( e.lastName) = lower(:lastName) ORDER BY lastName")
 	List<User> findByName( @Param("firstName") String firstName, @Param("lastName") String lastName);
